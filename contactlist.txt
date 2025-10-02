@@ -1,0 +1,3 @@
+1,Linda,Rabbitsu vag 5b,SE19212,736755555,pluto@live.se
+2,John Doe,Maple Street 12,SE11820,723344556,john.doe@mail.com
+3,Sara Nilsson,Birch Road 8A,SE14567,767788990,sara.nilsson@gmail.com
