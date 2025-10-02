@@ -14,10 +14,6 @@ static class WriteToFile
                 {
                     ConvertToListItem(list, line);
                 }
-                // foreach (var item in list)
-                // {
-                //     Console.WriteLine(item.Name);
-                // }
                 return (true, list);
             }
         }
@@ -58,20 +54,4 @@ static class WriteToFile
             return false;
         }
     }
-
-    // static public bool Update(string name)
-    // {
-    //     try
-    //     {
-    //         (bool success, List<Contact> contactsList) = ReadContacts();
-
-    //         return true;
-    //     }
-    //     catch (Exception exp)
-    //     {
-    //         Console.Write(exp.Message);
-    //         return false;
-    //     }
-    // }
-
 }
