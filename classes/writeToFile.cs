@@ -2,12 +2,6 @@ static class WriteToFile
 {
     static private string fileName = @"E:\dotnet\contactlist\contactlist.txt";
 
-    /// <summary>
-    /// Writes text to the file.
-    /// </summary>
-    /// <param name="txt">The text to write into the file.</param>
-    /// <param name="b">If true, appends to the file; if false, overwrites the file.</param>
-    /// <returns>True if writing succeeds, false otherwise.</returns>
     static public (bool success, List<Contact> contacts) ReadContacts()
     {
         List<Contact> list = new();
