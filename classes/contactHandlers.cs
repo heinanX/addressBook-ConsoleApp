@@ -72,36 +72,39 @@ class ContactHandlers
 
     static public void UpdateContact()
     {
-        int contactIndex = 9999;
-        bool editContent = true;
+        (int contactIndex, List<Contact> contactList) = GetContactIndex();
+        // int contactIndex = 9999;
+        // bool editContent = true;
 
-        (_, List<Contact> contactList) = WriteToFile.ReadContacts();
-        foreach (var c in contactList)
-        {
-            Thread.Sleep(500);
-            Console.WriteLine($"ID: {c.ID} -- Name: {c.Name}");
-        }
+        // (_, List<Contact> contactList) = WriteToFile.ReadContacts();
+        // foreach (var c in contactList)
+        // {
+        //     Thread.Sleep(500);
+        //     Console.WriteLine($"ID: {c.ID} -- Name: {c.Name}");
+        // }
 
 
-        while (editContent)
-        {
-            string contactId = Helpers.PromptStringQuestion("Enter ID of the contact you want to update: ");
-            if (!contactList.Any(c => c.ID.ToString() == contactId))
-            {
-                bool isLong = long.TryParse(contactId, out _);
-                Console.WriteLine(isLong ? "\nContact not found." : "\nNot an ID.");
-                editContent = Helpers.PromptYesNoQuestion("Try again?");
-            }
-            else
-            {
-                contactIndex = contactList.FindIndex(c => c.ID.ToString() == contactId);
-                editContent = false;
-            }
-        }
+        // while (editContent)
+        // {
+        //     string contactId = Helpers.PromptStringQuestion("Enter ID of the contact you want to update: ");
+        //     if (!contactList.Any(c => c.ID.ToString() == contactId))
+        //     {
+        //         bool isLong = long.TryParse(contactId, out _);
+        //         Console.WriteLine(isLong ? "\nContact not found." : "\nNot an ID.");
+        //         editContent = Helpers.PromptYesNoQuestion("Try again?");
+        //     }
+        //     else
+        //     {
+        //         contactIndex = contactList.FindIndex(c => c.ID.ToString() == contactId);
+        //         editContent = false;
+        //     }
+        // }
 
         if (contactIndex != 9999)
         {
+            ContactSummary(contactList[contactIndex]);
             contactList[contactIndex] = EditField(contactList[contactIndex]);
+            Thread.Sleep(300);
             Console.WriteLine("Contact updated!");
             WriteToFile.Write(contactList);
         }
@@ -112,11 +115,26 @@ class ContactHandlers
 
     static public void DeleteContact()
     {
-
+        (int contactIndex, List<Contact> contactList) = GetContactIndex();
+        if (contactIndex != 9999)
+        {
+            ContactSummary(contactList[contactIndex]);
+            bool isYes = Helpers.PromptYesNoQuestion($"Are you sure you want to delete {contactList[contactIndex].Name} from your contacts [y/n]? ");
+            if (isYes)
+            {
+                bool isDeleted = contactList.Remove(contactList[contactIndex]);
+                if (isDeleted)
+                {
+                    Thread.Sleep(300);
+                    Console.WriteLine("Contact removed!");
+                }
+                WriteToFile.Write(contactList);
+            }
+        }
     }
 
     // DeleteContact
-    static (long, List<Contact>) GetContactIndex()
+    static (int, List<Contact>) GetContactIndex()
     {
         int contactIndex = 9999;
         bool isLocatingContact = true;
@@ -124,14 +142,14 @@ class ContactHandlers
         (_, List<Contact> contactList) = WriteToFile.ReadContacts();
         foreach (var contact in contactList)
         {
-            Thread.Sleep(500);
+            Thread.Sleep(150);
             Console.WriteLine($"ID: {contact.ID} -- Name: {contact.Name}");
         }
 
 
         while (isLocatingContact)
         {
-            string contactId = Helpers.PromptStringQuestion("Enter ID of the contact you want to update: ");
+            string contactId = Helpers.PromptStringQuestion("\nEnter ID of the contact you want to update: ");
             if (!contactList.Any(c => c.ID.ToString() == contactId))
             {
                 bool isLong = long.TryParse(contactId, out _);
@@ -152,13 +170,13 @@ class ContactHandlers
         bool stopLoop = false;
         while (!stopLoop)
         {
-            string correctField = Helpers.PromptStringQuestion($"which field do you wish to correct? ");
+            string correctField = Helpers.PromptStringQuestion($"- Which field do you wish to correct? ");
 
             switch (correctField.ToLower())
             {
                 case "name": c.Name = Helpers.PromptStringQuestion("Enter name: "); break;
                 case "address": c.Address = Helpers.PromptStringQuestion("Enter address: "); break;
-                case "zip code": c.ZipCode = Helpers.PromptStringQuestion("Enter zip code: "); break;
+                case "zip code": c.ZipCode = Helpers.PromptStringQuestion("Enter zip code: ").ToUpper(); break;
                 case "phone": c.Phone = Helpers.PromptIntQuestion("Enter phone: "); break;
                 case "email": c.Email = Helpers.PromptStringQuestion("Enter email: "); break;
                 default: Console.WriteLine("Invalid option"); break;
@@ -171,7 +189,9 @@ class ContactHandlers
 
     static void ContactSummary(Contact c)
     {
-        Console.WriteLine($"\nThis is your new contact, ID: {c.ID}, Name: {c.Name}, Address: {c.Address}, Zip Code: {c.ZipCode}, Phone: {c.Phone}, Email: {c.Email}");
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine($"Contact info -- ID: {c.ID}, Name: {c.Name}, Address: {c.Address}, Zip Code: {c.ZipCode}, Phone: {c.Phone}, Email: {c.Email}\n");
+        Console.ResetColor();
     }
 
     static void LogContacts(List<Contact> contactList) // rename LogAllContacts

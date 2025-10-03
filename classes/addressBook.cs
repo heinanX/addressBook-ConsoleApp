@@ -23,25 +23,45 @@ class AddressBook
     void MeddlingKid(int num, string action)
     {
         Console.WriteLine($" \n----- {action} contact:");
-        if (num > 0)
+        if (num >= 0 && num < options.Length)
         {
-            //ContactHandler.ListContacts();
-            //ContactHandlers.FindContacts();
-            //ContactHandlers.CreateContact();
-            ContactHandlers.UpdateContact();
+            switch (num)
+            {
+                case 0: ContactHandlers.ListContacts(); break;
+                case 1: ContactHandlers.CreateContact(); break;
+                case 2: ContactHandlers.UpdateContact(); break;
+                case 3: ContactHandlers.DeleteContact(); break;
+                case 4: ContactHandlers.FindContacts(); break;
+                case 5: CloseMainMenu(); break;
+            }
+        }
+        else
+        {
+            CloseMainMenu();
         }
         ReturnToMainMenu();
     }
 
     public bool ReturnToMainMenu()
     {
-        bool active = Helpers.PromptYesNoQuestion("Return to main menu?");
+        bool active = Helpers.PromptYesNoQuestion("\nReturn to main menu [y/n]? ");
         if (!active)
         {
-            Thread.Sleep(150);
-            Console.WriteLine("Closing application");
+            CloseMainMenu();
         }
 
         return active;
+    }
+
+    static void CloseMainMenu()
+    {
+        Thread.Sleep(200);
+        Console.WriteLine(".");
+        Thread.Sleep(200);
+        Console.WriteLine("..");
+        Thread.Sleep(200);
+        Console.WriteLine("...");
+        Thread.Sleep(200);
+        Console.WriteLine("Closing application");
     }
 }
