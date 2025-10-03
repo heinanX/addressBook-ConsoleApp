@@ -2,7 +2,7 @@ class AddressBook
 {
     string[] options = ["List", "Create", "Update", "Delete", "Find", "Close"];
 
-    public void InitInstructions()
+    public void InitMainMenu()
     {
         Console.WriteLine("\nChoose an action by entering a number.");
         for (int i = 0; i < options.Length; i++)
@@ -32,12 +32,12 @@ class AddressBook
                 case 2: ContactHandlers.UpdateContact(); break;
                 case 3: ContactHandlers.DeleteContact(); break;
                 case 4: ContactHandlers.FindContacts(); break;
-                case 5: CloseMainMenu(); break;
+                case 5: CloseApp(); break;
             }
         }
         else
         {
-            CloseMainMenu();
+            CloseApp();
         }
         ReturnToMainMenu();
     }
@@ -47,13 +47,13 @@ class AddressBook
         bool active = Helpers.PromptYesNoQuestion("\nReturn to main menu [y/n]? ");
         if (!active)
         {
-            CloseMainMenu();
+            CloseApp();
         }
 
         return active;
     }
 
-    static void CloseMainMenu()
+    static void CloseApp()
     {
         Thread.Sleep(200);
         Console.WriteLine(".");
