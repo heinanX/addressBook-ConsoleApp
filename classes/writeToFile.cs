@@ -43,7 +43,7 @@ static class WriteToFile
             {
                 foreach (var item in list)
                 {
-                    writer.WriteLine($"{item.ID}, {item.Name}, {item.Address}, {item.ZipCode}, {item.Phone}, {item.Email}");
+                    writer.WriteLine($"{item.ID},{item.Name},{item.Address},{item.ZipCode},{item.Phone},{item.Email}");
                 }
                 return true;
             }
