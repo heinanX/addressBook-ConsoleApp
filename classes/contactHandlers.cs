@@ -57,47 +57,131 @@ class ContactHandlers
         int phone = Helpers.PromptIntQuestion("Enter phone: ");
         string email = Helpers.PromptStringQuestion("Enter email: ");
 
-        ContactSummary(ID, name, address, zipCode, phone, email);
+        Contact newContact = new(ID, name.ToLower(), address.ToLower(), zipCode.ToUpper(), phone, email.ToLower());
+
+        ContactSummary(newContact);
         bool isCorrect = Helpers.PromptYesNoQuestion("Is this correct [y/n]?");
 
-        while (!isCorrect)
-        {
-            string correctField = Helpers.PromptStringQuestion($"which field do you wish to correct? ");
+        if (!isCorrect) newContact = EditField(newContact);
 
-            switch (correctField.ToLower())
-            {
-                case "name": name = Helpers.PromptStringQuestion("Enter name: "); break;
-                case "address": address = Helpers.PromptStringQuestion("Enter address: "); break;
-                case "zip code": zipCode = Helpers.PromptStringQuestion("Enter zip code: "); break;
-                case "phone": phone = Helpers.PromptIntQuestion("Enter phone: "); break;
-                case "email": email = Helpers.PromptStringQuestion("Enter email: "); break;
-                default: Console.WriteLine("Invalid option"); break;
-            }
-            ContactSummary(ID, name, address, zipCode, phone, email);
-            isCorrect = Helpers.PromptYesNoQuestion("Is this correct [y/n]? ");
-        }
-
-        Contact newContact = new(ID, name.ToLower(), address.ToLower(), zipCode.ToUpper(), phone, email.ToLower());
         contactList.Add(newContact);
         LogContacts(contactList);
         WriteToFile.Write(contactList);
 
     }
-    // UpdateContact
-    // DeleteContact
 
-    static void ContactSummary(long ID, string name, string address, string zipCode, int phone, string email)
+    static public void UpdateContact()
     {
-        Console.WriteLine($"\nThis is your new contact, ID: {ID}, Name: {name}, Address: {address}, Zip Code: {zipCode}, Phone: {phone}, Email: {email}");
+        int contactIndex = 9999;
+        bool editContent = true;
+
+        (_, List<Contact> contactList) = WriteToFile.ReadContacts();
+        foreach (var c in contactList)
+        {
+            Thread.Sleep(500);
+            Console.WriteLine($"ID: {c.ID} -- Name: {c.Name}");
+        }
+
+
+        while (editContent)
+        {
+            string contactId = Helpers.PromptStringQuestion("Enter ID of the contact you want to update: ");
+            if (!contactList.Any(c => c.ID.ToString() == contactId))
+            {
+                bool isLong = long.TryParse(contactId, out _);
+                Console.WriteLine(isLong ? "\nContact not found." : "\nNot an ID.");
+                editContent = Helpers.PromptYesNoQuestion("Try again?");
+            }
+            else
+            {
+                contactIndex = contactList.FindIndex(c => c.ID.ToString() == contactId);
+                editContent = false;
+            }
+        }
+
+        if (contactIndex != 9999)
+        {
+            contactList[contactIndex] = EditField(contactList[contactIndex]);
+            Console.WriteLine("Contact updated!");
+            WriteToFile.Write(contactList);
+        }
+
+
+
     }
 
-    private static void LogContacts(List<Contact> contactList)
+    static public void DeleteContact()
+    {
+
+    }
+
+    // DeleteContact
+    static (long, List<Contact>) GetContactIndex()
+    {
+        int contactIndex = 9999;
+        bool isLocatingContact = true;
+
+        (_, List<Contact> contactList) = WriteToFile.ReadContacts();
+        foreach (var contact in contactList)
+        {
+            Thread.Sleep(500);
+            Console.WriteLine($"ID: {contact.ID} -- Name: {contact.Name}");
+        }
+
+
+        while (isLocatingContact)
+        {
+            string contactId = Helpers.PromptStringQuestion("Enter ID of the contact you want to update: ");
+            if (!contactList.Any(c => c.ID.ToString() == contactId))
+            {
+                bool isLong = long.TryParse(contactId, out _);
+                Console.WriteLine(isLong ? "\nContact not found." : "\nNot a valid ID.");
+                isLocatingContact = Helpers.PromptYesNoQuestion("Try again?");
+            }
+            else
+            {
+                contactIndex = contactList.FindIndex(c => c.ID.ToString() == contactId);
+                isLocatingContact = false;
+            }
+        }
+        return (contactIndex, contactList);
+    }
+
+    static Contact EditField(Contact c)
+    {
+        bool stopLoop = false;
+        while (!stopLoop)
+        {
+            string correctField = Helpers.PromptStringQuestion($"which field do you wish to correct? ");
+
+            switch (correctField.ToLower())
+            {
+                case "name": c.Name = Helpers.PromptStringQuestion("Enter name: "); break;
+                case "address": c.Address = Helpers.PromptStringQuestion("Enter address: "); break;
+                case "zip code": c.ZipCode = Helpers.PromptStringQuestion("Enter zip code: "); break;
+                case "phone": c.Phone = Helpers.PromptIntQuestion("Enter phone: "); break;
+                case "email": c.Email = Helpers.PromptStringQuestion("Enter email: "); break;
+                default: Console.WriteLine("Invalid option"); break;
+            }
+            ContactSummary(c);
+            stopLoop = Helpers.PromptYesNoQuestion("Is this correct [y/n]? ");
+        }
+        return c;
+    }
+
+    static void ContactSummary(Contact c)
+    {
+        Console.WriteLine($"\nThis is your new contact, ID: {c.ID}, Name: {c.Name}, Address: {c.Address}, Zip Code: {c.ZipCode}, Phone: {c.Phone}, Email: {c.Email}");
+    }
+
+    static void LogContacts(List<Contact> contactList) // rename LogAllContacts
     {
         foreach (var c in contactList)
         {
             Console.WriteLine($"ID: {c.ID}, Name: {c.Name}, Address: {c.Address}, Zip Code: {c.ZipCode}, Phone: {c.Phone}, Email: {c.Email}");
         }
     }
+
     private static void ShowErrorMsg(string v)
     {
         Console.WriteLine($"Couldn't {v} contacts");

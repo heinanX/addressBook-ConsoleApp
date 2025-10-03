@@ -4,7 +4,6 @@ class AddressBook
 
     public void InitInstructions()
     {
-
         Console.WriteLine("\nChoose an action by entering a number.");
         for (int i = 0; i < options.Length; i++)
         {
@@ -28,7 +27,21 @@ class AddressBook
         {
             //ContactHandler.ListContacts();
             //ContactHandlers.FindContacts();
-            ContactHandlers.CreateContact();
+            //ContactHandlers.CreateContact();
+            ContactHandlers.UpdateContact();
         }
+        ReturnToMainMenu();
+    }
+
+    public bool ReturnToMainMenu()
+    {
+        bool active = Helpers.PromptYesNoQuestion("Return to main menu?");
+        if (!active)
+        {
+            Thread.Sleep(150);
+            Console.WriteLine("Closing application");
+        }
+
+        return active;
     }
 }
