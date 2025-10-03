@@ -28,7 +28,7 @@ static class WriteToFile
     {
         var parts = listItem.Split(',');
         Contact person = new(
-            long.Parse(parts[0]), parts[1], parts[2], parts[3], int.Parse(parts[4].Trim()), parts[5]
+            long.Parse(parts[0]), parts[1], parts[2], parts[3], parts[4], int.Parse(parts[5]), parts[6]
         );
         list.Add(person);
         return list;
@@ -43,7 +43,7 @@ static class WriteToFile
             {
                 foreach (var item in list)
                 {
-                    writer.WriteLine($"{item.ID},{item.Name},{item.Address},{item.ZipCode},{item.Phone},{item.Email}");
+                    writer.WriteLine($"{item.ID},{item.Name},{item.Street},{item.ZipCode},{item.City},{item.Phone},{item.Email}");
                 }
                 return true;
             }

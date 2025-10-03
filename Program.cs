@@ -1,3 +1,3 @@
 ﻿AddressBook addressbook = new();
 
-addressbook.InitMainMenu();
+addressbook.InitAddressBookApp();

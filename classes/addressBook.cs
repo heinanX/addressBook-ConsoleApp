@@ -2,12 +2,23 @@ class AddressBook
 {
     string[] options = ["List", "Create", "Update", "Delete", "Find", "Close"];
 
-    public void InitMainMenu()
+    public void InitAddressBookApp()
     {
-        Console.WriteLine("\nChoose an action by entering a number.");
+        bool closeAddressBook = false;
+        Console.WriteLine("Opening Address Book");
+        while (!closeAddressBook)
+        {
+            MainMenu();
+            closeAddressBook = Helpers.PromptYesNoQuestion("\nReturn to main menu [y/n]? ");
+        }
+        CloseApp();
+    }
+    public void MainMenu()
+    {
+        Console.WriteLine($"\n-- Choose an action by entering a number [1-{options.Length}] :");
         for (int i = 0; i < options.Length; i++)
         {
-            string msg = options[i] != "Close" ? "contact" : "app";
+            string msg = options[i] != "close" ? "contact" : "app";
             Console.WriteLine($"{i + 1}. {options[i]} {msg}");
         }
 
@@ -39,18 +50,6 @@ class AddressBook
         {
             CloseApp();
         }
-        ReturnToMainMenu();
-    }
-
-    public bool ReturnToMainMenu()
-    {
-        bool active = Helpers.PromptYesNoQuestion("\nReturn to main menu [y/n]? ");
-        if (!active)
-        {
-            CloseApp();
-        }
-
-        return active;
     }
 
     static void CloseApp()
