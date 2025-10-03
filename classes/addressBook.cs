@@ -1,8 +1,9 @@
 class AddressBook
 {
+    string[] options = ["List", "Create", "Update", "Delete", "Find", "Close"];
+
     public void InitInstructions()
     {
-        string[] options = ["List", "Create", "Update", "Delete", "Find", "Close"];
 
         Console.WriteLine("\nChoose an action by entering a number.");
         for (int i = 0; i < options.Length; i++)
@@ -11,16 +12,23 @@ class AddressBook
             Console.WriteLine($"{i + 1}. {options[i]} {msg}");
         }
 
-        string response = Console.ReadLine() ?? "";
-        MeddlingKid(response);
+        Console.WriteLine("");
+        bool success = int.TryParse(Console.ReadLine(), out int num);
+        if (success)
+        {
+            num = num - 1;
+            MeddlingKid(num, options[num]);
+        }
     }
 
-    void MeddlingKid(string a)
+    void MeddlingKid(int num, string action)
     {
-        if (int.Parse(a) > 0)
+        Console.WriteLine($" \n----- {action} contact:");
+        if (num > 0)
         {
             //ContactHandler.ListContacts();
-            ContactHandlers.FindContacts("55");
+            //ContactHandlers.FindContacts();
+            ContactHandlers.CreateContact();
         }
     }
 }

@@ -28,7 +28,7 @@ static class WriteToFile
     {
         var parts = listItem.Split(',');
         Contact person = new(
-            int.Parse(parts[0].Trim()), parts[1], parts[2], parts[3], int.Parse(parts[4].Trim()), parts[5]
+            long.Parse(parts[0]), parts[1], parts[2], parts[3], int.Parse(parts[4].Trim()), parts[5]
         );
         list.Add(person);
         return list;
