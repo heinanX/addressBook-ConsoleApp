@@ -4,37 +4,40 @@ class AddressBook
 
     public void InitAddressBookApp()
     {
-        bool closeAddressBook = false;
-        Console.WriteLine("Opening Address Book");
-        while (!closeAddressBook)
+        bool openAddressBook = true;
+        OpenCloseApp(true);
+        while (openAddressBook)
         {
-            MainMenu();
-            closeAddressBook = Helpers.PromptYesNoQuestion("\nReturn to main menu [y/n]? ");
+            int choice = MainMenu();
+            openAddressBook = MeddlingKid(choice);
         }
-        CloseApp();
+        OpenCloseApp(false);
     }
-    public void MainMenu()
+    public int MainMenu()
     {
-        Console.WriteLine($"\n-- Choose an action by entering a number [1-{options.Length}] :");
+        Console.WriteLine($"\n-- Choose an action by entering a number [1-{options.Length}]:");
         for (int i = 0; i < options.Length; i++)
         {
-            string msg = options[i] != "close" ? "contact" : "app";
+            string msg = options[i] != "Close" ? "contact" : "app";
             Console.WriteLine($"{i + 1}. {options[i]} {msg}");
         }
-
         Console.WriteLine("");
-        bool success = int.TryParse(Console.ReadLine(), out int num);
-        if (success)
+        _ = int.TryParse(Console.ReadLine(), out int inputNum);
+        while (inputNum > options.Length)
         {
-            num = num - 1;
-            MeddlingKid(num, options[num]);
+            Console.WriteLine($"Not a valid number. Enter a number between [1-{options.Length}]:");
+            _ = int.TryParse(Console.ReadLine(), out inputNum);
         }
+
+        inputNum = inputNum - 1;
+
+        return inputNum;
     }
 
-    void MeddlingKid(int num, string action)
+    bool MeddlingKid(int num)
     {
-        Console.WriteLine($" \n----- {action} contact:");
-        if (num >= 0 && num < options.Length)
+        if (options[num] != "Close") Console.WriteLine($" \n----- {options[num]} contact:");
+        if (num >= 0 && num < options.Length && num != 5)
         {
             switch (num)
             {
@@ -43,17 +46,18 @@ class AddressBook
                 case 2: ContactHandlers.UpdateContact(); break;
                 case 3: ContactHandlers.DeleteContact(); break;
                 case 4: ContactHandlers.FindContacts(); break;
-                case 5: CloseApp(); break;
             }
+            return Helpers.PromptYesNoQuestion("\nReturn to main menu [y/n]? ");
         }
         else
         {
-            CloseApp();
+            return false;
         }
     }
 
-    static void CloseApp()
+    static void OpenCloseApp(bool open)
     {
+        string msg = open ? "Opening" : "Closing";
         Thread.Sleep(200);
         Console.WriteLine(".");
         Thread.Sleep(200);
@@ -61,6 +65,9 @@ class AddressBook
         Thread.Sleep(200);
         Console.WriteLine("...");
         Thread.Sleep(200);
-        Console.WriteLine("Closing application");
+        Console.ForegroundColor = open ? ConsoleColor.Green : ConsoleColor.Yellow;
+        Console.WriteLine($"{msg} application");
+        Console.ResetColor();
+        if (open) Thread.Sleep(200);
     }
 }
