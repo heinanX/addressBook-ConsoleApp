@@ -1,6 +1,10 @@
 static class WriteToFile
 {
-    static private string fileName = @"E:\dotnet\contactlist\contactlist.txt";
+    static private string fileName = "";
+    static public void SetFilePath(string path)
+    {
+        fileName = @path;
+    }
 
     static public (bool success, List<Contact> contacts) ReadContacts()
     {

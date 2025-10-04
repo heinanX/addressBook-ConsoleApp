@@ -3,6 +3,11 @@ class AddressBook
     string[] options = ["List", "Create", "Update", "Delete", "Find", "Close"];
     List<Contact> contactList = [];
 
+    public AddressBook(string filePath)
+    {
+        WriteToFile.SetFilePath(filePath);
+    }
+
     public void RunAddressBookApp()
     {
         bool openAddressBook = true;
