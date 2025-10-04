@@ -66,7 +66,7 @@ class ContactHandlers
         if (!isCorrect) newContact = EditField(newContact);
 
         contactList.Add(newContact);
-        LogAllContacts(contactList);
+        ConfirmAction("Contact created!");
         WriteToFile.Write(contactList);
 
     }
@@ -79,8 +79,8 @@ class ContactHandlers
         {
             ContactSummary(contactList[contactIndex]);
             contactList[contactIndex] = EditField(contactList[contactIndex]);
-            Thread.Sleep(300);
-            Console.WriteLine("Contact updated!");
+
+            ConfirmAction("Contact updated!");
             WriteToFile.Write(contactList);
         }
     }
@@ -97,8 +97,7 @@ class ContactHandlers
                 bool isDeleted = contactList.Remove(contactList[contactIndex]);
                 if (isDeleted)
                 {
-                    Thread.Sleep(300);
-                    Console.WriteLine("Contact removed!");
+                    ConfirmAction("Contact removed!");
                 }
                 WriteToFile.Write(contactList);
             }
@@ -174,6 +173,12 @@ class ContactHandlers
         {
             Console.WriteLine($"ID: {c.ID}, Name: {c.Name}, Address: {c.Street}, Zip Code: {c.ZipCode}, City: {c.City}, Phone: {c.Phone}, Email: {c.Email}");
         }
+    }
+
+    static void ConfirmAction(string txt)
+    {
+        Thread.Sleep(300);
+        Console.WriteLine(txt);
     }
 
     private static void ShowErrorMsg(string v) // Am I gonna do anything with this or not

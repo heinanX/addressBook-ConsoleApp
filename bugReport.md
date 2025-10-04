@@ -4,8 +4,6 @@
 
 3. When asked if I want to return to main menu and the answer is no, it throws you back to the main menu because of the while loop. (DONE!)
 
-4. When editing a contact, city field is set to .ToUpper() -- no!
+4. When editing a contact, city field is set to .ToUpper() -- no! (DONE)
 
-5. When editing a contact, capital letters are saved, -- To.Lower()
-
-6. Introduce shared state for the contact list. -- Optimize!
+5. When editing a contact, capital letters are saved, -- To.Lower() (DONE)

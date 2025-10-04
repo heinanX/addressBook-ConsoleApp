@@ -21,17 +21,15 @@ class AddressBook
             string msg = options[i] != "Close" ? "contact" : "app";
             Console.WriteLine($"{i + 1}. {options[i]} {msg}");
         }
-        Console.WriteLine("");
-        _ = int.TryParse(Console.ReadLine(), out int inputNum);
-        while (inputNum > options.Length)
+        int index = Helpers.PromptIntQuestion("");
+        while (index > options.Length)
         {
-            Console.WriteLine($"Not a valid number. Enter a number between [1-{options.Length}]:");
-            _ = int.TryParse(Console.ReadLine(), out inputNum);
+            index = Helpers.PromptIntQuestion($"Not a valid number. Enter a number between [1-{options.Length}]:");
         }
 
-        inputNum = inputNum - 1;
+        index--;
 
-        return inputNum;
+        return index;
     }
 
     bool MeddlingKid(int num)
