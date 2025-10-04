@@ -115,11 +115,8 @@ static class ContactHandlers
                 Console.WriteLine("\nNot a valid ID.");
             }
 
-            if (!Helpers.PromptYesNoQuestion("Try again [y/n]? "))
-                return false;
-
+            if (!Helpers.PromptYesNoQuestion("Try again [y/n]? ")) return false;
         }
-
     }
 
     static Contact EditField(Contact c)
@@ -156,7 +153,7 @@ static class ContactHandlers
     {
         foreach (var c in contactList)
         {
-            Console.WriteLine($"ID: {c.ID}, Name: {c.Name}, Address: {c.Street}, Zip Code: {c.ZipCode}, City: {c.City}, Phone: {c.Phone}, Email: {c.Email}");
+            ContactSummary(c);
         }
     }
 
