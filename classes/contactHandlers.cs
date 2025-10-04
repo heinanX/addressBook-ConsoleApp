@@ -1,4 +1,4 @@
-class ContactHandlers
+static class ContactHandlers
 {
     static public void ListContacts()
     {
@@ -185,5 +185,4 @@ class ContactHandlers
     {
         Console.WriteLine($"Couldn't {v} contacts");
     }
-
 }

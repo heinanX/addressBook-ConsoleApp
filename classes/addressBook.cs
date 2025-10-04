@@ -13,6 +13,7 @@ class AddressBook
         }
         OpenCloseApp(false);
     }
+
     public int MainMenu()
     {
         Console.WriteLine($"\n-- Choose an action by entering a number [1-{options.Length}]:");
@@ -53,7 +54,7 @@ class AddressBook
         }
     }
 
-    static void OpenCloseApp(bool open)
+    void OpenCloseApp(bool open)
     {
         string msg = open ? "Opening" : "Closing";
         Thread.Sleep(200);
