@@ -7,3 +7,5 @@
 4. When editing a contact, city field is set to .ToUpper() -- no!
 
 5. When editing a contact, capital letters are saved, -- To.Lower()
+
+6. Introduce shared state for the contact list. -- Optimize!
